@@ -12,7 +12,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 
 # How to use?
 
-go to the website [link:https://sm-type.github.io/OctopusProject/] 
+go to the website https://sm-type.github.io/OctopusProject/
 
 # FAQ
 
