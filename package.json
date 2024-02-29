@@ -1,6 +1,7 @@
 {
-  "name": "octopusproject",
-  "version": "0.0.0",
+  "homepage": "https://sm-type.github.io/OctopusProject/",
+  "name": "OctopusProject",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -23,6 +24,7 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
+    "gh-pages": "^6.1.1",
     "node-sass": "^9.0.0",
     "prettier": "^3.0.3",
     "sass": "^1.71.1",
