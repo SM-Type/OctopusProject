@@ -1,0 +1,213 @@
+// styles.scss
+$MAIN-ColorApp: rgb(250, 245, 241);
+
+$MAIN-Black: rgba(0, 0, 0, 1);
+$MAIN-White: rgba(250, 245, 241, 1);
+
+$MAIN-White-op: rgba(250, 245, 241, 0.2);
+$MAIN-Black-op: rgba(0, 0, 0, 0.15);
+
+$MAIN-Gray-05: rgba(0, 0, 0, 0.05); // edit from Black
+$MAIN-Gray-15: rgba(0, 0, 0, 0.15); // edit from Black
+
+$MAIN-radius-small: 6px;
+$MAIN-radius-normal: 12px;
+
+// Black
+$Black-basic: rgba(36, 32, 34, 1);
+$Black-op_75: rgba(36, 32, 34, 0.75);
+$Black-op_50: rgba(36, 32, 34, 0.5);
+$Black-op_30: rgba(36, 32, 34, 0.3);
+$Black-op_14: rgba(36, 32, 34, 0.14);
+$Black-op_07: rgba(36, 32, 34, 0.07);
+$Black-op_04: rgba(36, 32, 34, 0.04);
+// White
+$White-basic: rgba(249, 246, 242, 1);
+$White-op_75: rgba(249, 246, 242, 0.75);
+$White-op_50: rgba(249, 246, 242, 0.5);
+$White-op_30: rgba(249, 246, 242, 0.3);
+$White-op_14: rgba(249, 246, 242, 0.14);
+$White-op_07: rgba(249, 246, 242, 0.07);
+$White-full: rgba(255, 255, 255, 1);
+// Color
+$Akcent-black: rgba(89, 11, 79, 1);
+$Akcent-dark: rgba(136, 18, 140, 1);
+$Akcent-basic: rgba(199, 31, 241, 1);
+$Akcent-op_30: rgba(199, 31, 241, 0.3);
+$Akcent-op_14: rgba(199, 31, 241, 0.14);
+$Akcent-op_07: rgba(199, 31, 241, 0.07);
+
+// Functional Colors
+$Color-red: rgba(254, 84, 61, 1);
+$Color-red-op: rgba(254, 84, 61, .15);
+$Color-green: rgba(66, 243, 127, 1);
+$Color-green-op: rgba(66, 243, 127, .15);
+$Color-blue: rgba(43, 174, 248, 1);
+$Color-blue-op: rgba(43, 174, 248, .15);
+
+
+// App Font
+@import url('https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@300;400;500;600;700&family=Spline+Sans:wght@300;400;500;600;700&display=swap');
+
+$app-font: 'Spline Sans', sans-serif;
+$app-font-mono: 'Spline Sans Mono', monospace;
+
+// Font Scale
+@mixin AppTypeface($font, $f-size) {
+  font-family: $font;
+  font-size: $f-size;
+}
+@mixin Font-P {
+  @include AppTypeface($app-font, 14px);
+  font-weight: 500;
+}
+@mixin Font-P-mono {
+  @include AppTypeface($app-font-mono, 14px);
+  font-weight: 500;
+}
+@mixin Font-Small {
+  @include AppTypeface($app-font, 11px);
+  font-weight: 500;
+}
+@mixin Font-Small-mono {
+  @include AppTypeface($app-font-mono, 11px);
+  font-weight: 500;
+}
+
+h1 {
+  @include AppTypeface($app-font, 53px);
+}
+h2 {
+  @include AppTypeface($app-font, 43px);
+}
+h3 {
+  @include AppTypeface($app-font, 34px);
+}
+h4 {
+  @include AppTypeface($app-font, 18px);
+}
+h5 {
+  @include AppTypeface($app-font, 27px);
+}
+h6 {
+  @include AppTypeface($app-font, 18px);
+  font-weight: 400;
+}
+p,
+textarea {
+  @include Font-P;
+  // font-weight: 400;
+}
+span {
+  @include AppTypeface($app-font-mono, 14px);
+}
+
+// Components
+@mixin Font-small {
+  font-family: $app-font;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@mixin Font-Label {
+  font-family: $app-font;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+@mixin Font-Imput {
+  font-family: $app-font-mono;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@mixin Font-Mono {
+  font-family: $app-font-mono;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+//
+@mixin shadow-panel {
+  border: 1px solid white;
+  box-shadow:
+    0 24px 38px 0 rgba(0, 0, 0, 0.12),
+    0 5px 8px 0 rgba(0, 0, 0, 0.07%),
+    0 2px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+@mixin activeBtn {
+  &:active {
+    background-color: $Akcent-op_14;
+    border: 1px solid $Akcent-op_30;
+  }
+  
+}
+
+@mixin inputFormat {
+  background-color: $Black-op_04;
+  border: 1px solid $Black-op_07;
+  border-radius: $MAIN-radius-small;
+  padding: 8px 10px;
+  outline: none;
+  &:focus {
+    background-color: $White-basic;
+    border: 1px solid $Akcent-basic;
+    color: $Akcent-dark;
+    outline: none;
+  }
+}
+
+* {
+  margin: 0;
+  text-shadow: none !important;
+  ::selection {
+    background-color: $Akcent-op_30; // $Akcent-op_07
+    // color: $Akcent-basic;
+    // background-color: $Akcent-op_07;
+  }
+}
+
+#app {
+  max-width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  background-color: $White-basic;
+}
+
+p textarea {
+  word-wrap: break-word;
+}
+textarea {
+  background: none;
+  outline: none;
+  border-radius: $MAIN-radius-normal;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+.iconContent {
+  width: 20px;
+  height: 20px;
+  /* border-radius: 6px; */
+  padding: 4px;
+  border-radius: $MAIN-radius-small;
+  border: 1px solid $White-basic;
+  &:hover {
+    background-color: $Black-op_07;
+    border: 1px solid $Black-op_07;
+  }
+  @include activeBtn;
+}
+path{
+  // fill:red;
+  fill: $Black-basic;
+}
+
