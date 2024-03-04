@@ -1,15 +1,15 @@
 <script setup>
 import Head_panel from './components/Head_panel.vue'
 import Row from './components/Row.vue'
-
 import eksportJSON from './components/EksportJSON.vue'
 import HardWrapComponent from './components/HW.vue'
 import DashboardComponent from './components/DashboardComponent.vue'
 
+import FontEditor from './components/FontEditor.vue';
+
 // ICONS
 import IconEye from './components/icons/Icon-M-Eye.vue'
 // import IconEyeOff from './components/icons/Icon-M-Eye-off.vue'
-
 import IconHelp from './components/icons/Icon-M-Help.vue'
 import IconLayer from './components/icons/Icon-M-Layers.vue'
 import IconTune from './components/icons/Icon-M-Tune.vue'
@@ -17,18 +17,21 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
 
 <template>
   <DashboardComponent v-if="isDashboardVisible" @show-dashboard="showDashboard" />
-  
+
   <header>
+    <!-- Buttons in nav -->
     <Head_panel />
+    <!-- A momentary runtime component that can run in the Head_panel component -->
     <eksportJSON />
   </header>
 
   <section id="body-section">
+    <!-- Temporary "HardWrap", to transfer its functionality to a button in the Head_panel -->
     <div id="testHW">
       <HardWrapComponent />
     </div>
-    
 
+    <!-- Text bodies, columns and rows -->
     <Row
       v-for="rowIndex in parseInt(rowsCount)"
       :key="rowIndex"
@@ -39,19 +42,24 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
 
   <footer>
     <div class="wrapper">
+      <!-- For hide panels, the button will leave only a text body -->
       <div class="iconContent">
         <IconEye />
       </div>
+      <!-- What is Octopus? -->
       <div class="iconContent">
         <IconHelp />
       </div>
+      <!-- What is Octopus? -->
       <div class="iconContent">
         <IconLayer />
       </div>
+      <!-- Dashboard panel -->
+      <!-- This window will show the settings of all columns in the form of a summary table -->
       <div class="iconContent">
         <IconTune @click="handleBtnFooterClick" />
       </div>
-
+      <!-- Inputs to set the number of columns and rows -->
       <div id="column-menager" class="border-wrap">
         <label>Rows:</label>
         <!-- for="rowsCount" -->
@@ -61,10 +69,12 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
         <input v-model="columnsCount" type="text" placeholder="Liczba elementów w wierszu" />
       </div>
     </div>
+    <!-- Version app -->
     <div class="wrapper">
       <span>V.0.0.1</span>
     </div>
   </footer>
+  <FontEditor />
 </template>
 
 <script>
@@ -82,7 +92,8 @@ export default {
   components: {
     HardWrapComponent,
     DashboardComponent,
-    Row
+    Row,
+    FontEditor,
   },
   methods: {
     handleBtnFooterClick() {
@@ -107,9 +118,9 @@ $header-height: calc(41px + ($header-padding * 2));
 $footer-btn-size: 24px;
 $footer-height: calc($footer-btn-size + ($header-padding * 2)); // #
 
-#testHW{
+#testHW {
   position: fixed;
-  top:0;
+  top: 0;
   right: 0;
 
   padding: 10px;
@@ -117,8 +128,8 @@ $footer-height: calc($footer-btn-size + ($header-padding * 2)); // #
   border-radius: $MAIN-radius-small;
 
   background-color: $Black-op_07;
-  &::before{
-    content: "PRIORYTET";
+  &::before {
+    content: 'PRIORYTET';
     @include Font-Mono;
     font-weight: 900;
     color: $Color-red;

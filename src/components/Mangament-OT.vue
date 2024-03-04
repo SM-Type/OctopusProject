@@ -4,7 +4,7 @@
 
 <template>
   <div class="OT-list">
-    <div v-for="item in OTData" :key="item" class="OT-item "> 
+    <div v-for="item in OTData" :key="item" class="OT-item">
       <!-- enable -->
       <span>{{ item }}</span>
     </div>
@@ -18,11 +18,17 @@ export default {
       OTData: []
     }
   },
+  watch: {
+    '$store.getters.getOTData'(newOTData) {
+      this.VFData = newOTData
+    }
+  },
   mounted() {
-    this.OTData = this.$store.getters['getOTData']
-    this.$store.dispatch('fetchOTData')
+    this.OTData = this.$store.getters['getOTData'];
+    // this.OTData = this.$store.getters['getOTData']
+    // this.$store.dispatch('fetchOTData')
   }
-} 
+}
 </script>
 
 <style lang="scss">
@@ -33,7 +39,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   gap: 4px 6px;
-  
+
   .OT-item {
     width: auto;
     height: auto;
@@ -45,19 +51,18 @@ export default {
     border: 1px solid $Black-op-14;
     border-radius: $MAIN-radius-small;
 
-    &:active{
-        background-color: $Color-green-op;
+    &:active {
+      background-color: $Color-green-op;
     }
-    
+
     span {
       width: auto;
     }
-    
   }
-  .enable{
+  .enable {
     color: $Black-basic;
     background-color: $Color-green-op;
-    &:active{
+    &:active {
       background-color: $Color-red-op;
     }
   }

@@ -1,5 +1,23 @@
+<!-- components/AxisNavContent.vue -->
 <script setup>
 import ColumnSetting from '@/components/ColumnSetting.vue'
+import { ref, watchEffect } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const fvarTags = ref([])
+
+// Reakcja na zmiany w store/Features-tags.js
+watchEffect(() => {
+  fvarTags.value = store.getters.getVFData
+})
+
+// Pobieranie wartości domyślnych dla osi VF
+const defaultAxesData = ref([]);
+watchEffect(() => {
+  defaultAxesData.value = store.getters.getDefaultAxesData;
+});
 </script>
 
 <template>
@@ -7,41 +25,12 @@ import ColumnSetting from '@/components/ColumnSetting.vue'
     <nav>
       <ColumnSetting />
       <slot name="content"></slot>
+      <div class="axis-nav">
+        {{ fvarTags.join(', ') }}
+      </div>
     </nav>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    updateAxisContent: Array
-  },
-  data() {
-    return {
-      axisNavContent: 'VF axis or file name'
-    }
-  },
-  mounted() {
-    // Zmiana treści przy użyciu Vue.js
-    this.changeContentForAxisNavElements()
-  },
-  watch: {
-    updateAxisContent(newData) {
-      this.axisNavContent = newData.join(', ')
-      this.changeContentForAxisNavElements()
-    }
-  },
-  methods: {
-    changeContentForAxisNavElements() {
-      // Zmiana treści dla elementów o klasie ".axis-nav"
-      const axisNavElements = document.querySelectorAll('.axis-nav')
-      axisNavElements.forEach((element) => {
-        element.innerHTML = this.axisNavContent
-      })
-    }
-  }
-}
-</script>
 
 <style scoped lang="scss">
 @import '../assets/main.scss';
@@ -49,12 +38,15 @@ export default {
 nav {
   width: 100%;
   height: 36px;
-  // background-color: red;
   display: flex;
   flex-direction: row;
   gap: 10px;
   p {
     @include Font-Mono;
   }
+}
+
+.axis-nav {
+  @include Font-Mono;
 }
 </style>

@@ -1,11 +1,20 @@
 <script setup>
 import AxisNavContent from '@/components/AxisNavContent.vue'
 import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 const font = ref(null)
 const cursorPosition = ref({ start: 0, end: 0 })
 
 watch(
+//   () => store.state.fonts.selectedFont,
+//   (newFont) => {
+//     userSelectedFont.value = null // Reset user-selected font when the system font changes
+//     font.value = newFont
+//   }
+// )
   () => font.value,
   (newFont) => {
     // Do something when the font changes
@@ -24,10 +33,7 @@ watch(
       </template>
     </AxisNavContent>
 
-    <div
-      class="column-text-area"
-      :style="{ fontFamily: font ? font.names.fullName.en : 'initial' }"
-    >
+    <div class="column-text-area">
       <textarea
         :id="'p-' + rowIndex + '-c' + columnIndex"
         v-model="sharedText"
@@ -35,7 +41,18 @@ watch(
         @scroll="syncScroll"
         @keydown.enter.prevent="handleEnterKey"
         spellcheck="false"
-      ></textarea>
+      > 
+        <!-- 
+        :style="{
+          fontFamily: userSelectedFont
+            ? `'${userSelectedFont}', sans-serif`
+            : selectedFont
+              ? selectedFont.names.fullName.en
+              : 'initial'
+        }"
+        -->
+        </textarea
+      >
     </div>
   </div>
 </template>
@@ -128,7 +145,7 @@ export default {
   .column-text-area {
     width: 100%;
     height: calc(100% - 36px);
-    
+
     $paddingTextArea: 20px;
     textarea {
       width: calc(100% - ($paddingTextArea * 2));

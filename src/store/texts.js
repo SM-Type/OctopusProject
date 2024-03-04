@@ -1,7 +1,7 @@
 // store/texts.js
 export default {
   state: {
-    sharedText: 'Hello', // Przykładowa zmienna do zarządzania tekstem.
+    sharedText: 'AaBbCc...', // Default text
   },
   mutations: {
     updateSharedText(state, newText) {

@@ -1,4 +1,56 @@
-<script setup></script>
+<script setup>
+import CloseSpace from '@/components/CloseSpace.vue'
+import VFComp from '@/components/Mangament-VF.vue'
+import OTComp from '@/components/Mangament-OT.vue'
+
+import { ref, getCurrentInstance, onUnmounted } from 'vue'
+
+// Icons
+import IconFontSize from '@/components/icons/Icon-C-FontSize.vue'
+import IconLeading from '@/components/icons/Icon-C-Leading.vue'
+import IconSpacing from '@/components/icons/Icon-C-Spacing.vue'
+import IconLang from '@/components/icons/Icon-C-Language.vue'
+
+const instance = getCurrentInstance()
+const props = instance.props
+const emit = instance.emit
+
+// Dane pozostawione wewnątrz setup
+const formData = ref({
+  fontSize: '64px',
+  leading: '100%',
+  spacing: '0',
+  language: 'en'
+})
+
+// Zmienna reaktywna również w setup
+const managementPanelOpen = ref(false)
+
+const closePanel = () => {
+  // Emitujemy zdarzenie do rodzica (Column.vue) informujące o zamknięciu panelu
+  emit('close-panel')
+}
+
+const closeManagementPanel = () => {
+  managementPanelOpen.value = false
+}
+
+// Czyszczenie nasłuchiwania zdarzeń przy usuwaniu komponentu
+onUnmounted(() => {
+  // Pamiętaj, aby wyczyścić nasłuchiwanie zdarzeń lub inne zasoby
+})
+</script>
+
+<script>
+export default {
+  emits: ['closePanel', 'close-panel'],
+  components: {
+    CloseSpace,
+    VFComp,
+    OTComp
+  }
+}
+</script>
 
 <template>
   <div id="mangament-panel">
@@ -69,60 +121,6 @@
   <CloseSpace @click="closePanel" />
 </template>
 
-<script setup>
-import CloseSpace from '@/components/CloseSpace.vue'
-import VFComp from '@/components/Mangament-VF.vue'
-import OTComp from '@/components/Mangament-OT.vue'
-
-import { ref, getCurrentInstance, onUnmounted } from 'vue'
-
-// Icons
-import IconFontSize from '@/components/icons/Icon-C-FontSize.vue'
-import IconLeading from '@/components/icons/Icon-C-Leading.vue'
-import IconSpacing from '@/components/icons/Icon-C-Spacing.vue'
-import IconLang from '@/components/icons/Icon-C-Language.vue'
-
-const instance = getCurrentInstance()
-const props = instance.props
-const emit = instance.emit
-
-// Dane pozostawione wewnątrz setup
-const formData = ref({
-  fontSize: '64px',
-  leading: '100%',
-  spacing: '0',
-  language: 'en'
-})
-
-// Zmienna reaktywna również w setup
-const managementPanelOpen = ref(false)
-
-const closePanel = () => {
-  // Emitujemy zdarzenie do rodzica (Column.vue) informujące o zamknięciu panelu
-  emit('close-panel')
-}
-
-const closeManagementPanel = () => {
-  managementPanelOpen.value = false
-}
-
-// Czyszczenie nasłuchiwania zdarzeń przy usuwaniu komponentu
-onUnmounted(() => {
-  // Pamiętaj, aby wyczyścić nasłuchiwanie zdarzeń lub inne zasoby
-})
-</script>
-
-<script>
-export default {
-  emits: ['closePanel', 'close-panel'],
-  components: {
-    CloseSpace,
-    VFComp,
-    OTComp
-  }
-}
-</script>
-
 <style lang="scss">
 @import '../src/assets/main.scss';
 
@@ -175,7 +173,7 @@ export default {
             align-items: center;
             gap: 20px;
 
-            input{
+            input {
               border: 1px solid $Black-op_07;
               background-color: $Black-op_04;
             }

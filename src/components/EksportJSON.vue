@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="exportToJson">Eksportuj do JSON</button>
+    <button @click="exportToJson">Eksportuj JSON</button>
   </div>
 </template>
 
@@ -11,6 +11,7 @@ export default {
       sampleData: {
         name: "Font name",
         type: "VariableFont",
+        test: "test"
       },
     };
   },

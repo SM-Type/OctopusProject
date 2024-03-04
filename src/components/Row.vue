@@ -9,7 +9,7 @@
       :key="columnIndex"
       :rowIndex="rowIndex"
       :columnIndex="columnIndex"
-      :fvarTags="['tag1', 'tag2']"
+      :fvarTags="['']"
       :charactersPerLine="charactersPerLine"
     />
   </div>
@@ -29,11 +29,6 @@ export default {
   },
   components: {
     Column,
-  },
-  data() {
-    return {
-      charactersPerLine: 10, // Ustawia wartość ilości znaków
-    };
   },
 };
 </script>

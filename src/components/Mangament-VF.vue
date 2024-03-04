@@ -1,29 +1,31 @@
+<!-- Mangament-VF.vue -->
 <script setup>
-// import ManagementPanel from '@/components/ManagementPanel.vue'
+import { ref, watchEffect } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const VFData = ref([])
+
+// Reakcja na zmiany w store/Features-tags.js
+watchEffect(() => {
+  VFData.value = store.getters.getDefaultAxesData
+})
 </script>
 
 <template>
-  <div class="VF-list">
-    <div v-for="item in compAData" :key="item" class="VF-item">
-      <span>{{ item }}</span>
-      <input type="text" name="name" id="" class="VF-input" />
+  <div>
+    <div v-if="VFData.length > 0" class="VF-list">
+      <div v-for="item in VFData" :key="item.tag" class="VF-item">
+        <span>{{ item.tag }}</span>
+        <input v-model="item.defaultValue" type="text" name="name" id="" class="VF-input" />
+      </div>
+    </div>
+    <div v-else>
+      <p>Empty axis value</p>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      compAData: []
-    }
-  },
-  mounted() {
-    this.compAData = this.$store.getters['getCompAData']
-    this.$store.dispatch('fetchData')
-  }
-}
-</script>
 
 <style lang="scss">
 @import '../src/assets/main.scss';
