@@ -24,7 +24,6 @@ watch(
 </script>
 
 <template>
-  <!-- Column component containing AxisNavContent and a text area for input and editing -->
   <div :id="'col-r' + rowIndex + '-c' + columnIndex" class="column">
     <!-- AxisNavContent component to navigate through font variation settings -->
     <AxisNavContent :updateAxisContent="fvarTags">

@@ -5,13 +5,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && npm run copy-readme",
     "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "copy-readme": "cp README.md dist/"
   },
   "dependencies": {
     "opentype.js": "^1.3.4",

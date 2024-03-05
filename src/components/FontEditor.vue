@@ -1,68 +1,70 @@
-<!-- FontEditor.vue -->
 <template>
-  <!-- Input for selecting a font file and textarea to display text with the selected font -->
-  <div>
-    <input type="file" @change="handleFileChange" /> <!-- File input for selecting a font file -->
-    <textarea v-model="text" :style="{ fontFamily: selectedFont }"></textarea> <!-- Textarea displaying text with the selected font -->
+  <div id="TEST">
+    <h5>Comp. FontEditor</h5>
+     <input type="file" @change="handleFileUpload" accept=".otf, .ttf, .woff">
+     <div id="span">{{ nazwaPliku }}</div>
+     <div id="testImpFont">The quick brown fox jumps over the lazy dog</div>
   </div>
 </template>
 
 <script>
-import opentype from 'opentype.js'; // Import the opentype library for font parsing
-
 export default {
-  data() {
-    return {
-      text: 'AaBbCc...',         // Default text
-      selectedFont: 'sans-serif', // Default font
-    };
-  },
-  methods: {
-    // Handle file change event when a font file is selected
-    async handleFileChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        try {
-          const font = await this.loadFont(file); // Load the selected font
-          this.applyFont(font);                   // Apply the selected font to the textarea
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    },
-    // Load the font file asynchronously and return a promise
-    loadFont(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+   data() {
+      return {
+         nazwaPliku: '',
+      };
+   },
+   methods: {
+      handleFileUpload(event) {
+         const fileInput = event.target;
+         if (fileInput.files.length > 0) {
+            const nazwa = fileInput.files[0].name;
+            this.nazwaPliku = `File: ${nazwa}`;
+            this.processFontFile(fileInput.files[0]);
+         } else {
+            this.nazwaPliku = '';
+         }
+      },
+      processFontFile(file) {
+         const reader = new FileReader();
 
-        // Set up a callback when the file is loaded
-        reader.onload = async (e) => {
-          try {
-            const font = opentype.parse(e.target.result); // Parse the font file
-            resolve(font);
-          } catch (error) {
-            reject(error);
-          }
-        };
+         reader.onload = (event) => {
+            const fontData = event.target.result;
 
-        // Read the font file as an ArrayBuffer
-        reader.readAsArrayBuffer(file);
-      });
-    },
-    // Apply the selected font to the textarea based on the loaded font
-    applyFont(font) {
-      const fontName = font.names.fullName.en || 'CustomFont'; // Use the font name if available, otherwise use 'CustomFont'
-      this.selectedFont = `'${fontName}', sans-serif`;        // Set the selectedFont style for the textarea
-    },
-  },
+            const customFont = new FontFace('CustomFont', fontData);
+            customFont.load().then((loadedFont) => {
+               document.fonts.add(loadedFont);
+               this.applyCustomFont('CustomFont');
+            });
+         };
+
+         reader.readAsArrayBuffer(file);
+      },
+      applyCustomFont(fontFamily) {
+         const tekstDoPrzetestowania = document.getElementById('testImpFont');
+         tekstDoPrzetestowania.style.fontFamily = fontFamily;
+      },
+   },
 };
 </script>
 
-<style scoped>
-textarea {
-  width: 100%;
-  height: 100px;
-  font-size: 16px;
-  padding: 10px;
+<style>
+#TEST{
+  position: fixed;
+  left: 70px;
+  bottom: 70px;
+  display: flex;
+  flex-direction: column;
+    flex-wrap: nowrap;
+  
+  z-index: 9999999;
+  padding: 40px;
+  border: 1px solid red;
+}
+#span{
+  color: #c0c0c0;;
+}
+#testImpFont{
+  font-size: 42px;
 }
 </style>

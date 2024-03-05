@@ -24,3 +24,4 @@ request.onsuccess = function(event) {
   store.commit('setDatabase', db);
   app.mount('#app');
 };
+
