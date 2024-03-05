@@ -1,28 +1,29 @@
+<!-- component/Head_panel.vue -->
 <script setup>
-import FeaturesData from '@/components/FeaturesData.vue'
+import FeaturesData from '@/components/FeaturesData.vue'  // Import the FeaturesData component
 
 // ICONS
-import IconAdd from '@/components/icons/Icon-M-Add_Circle.vue'
-import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'
+import IconAdd from '@/components/icons/Icon-M-Add_Circle.vue'   // Import the IconAdd component
+import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'  // Import the IconHardWrap component
 </script>
 
 <template>
-  <!-- <h1>Hello World</h1> -->
+  <!-- Head panel component containing buttons and the FeaturesData component -->
   <div class="btn-nav">
-    <IconAdd />
-    <span for="">Import .txt</span>
+    <IconAdd />  <!-- Button with IconAdd component -->
+    <span for="">Import .txt</span>  <!-- Text label for importing .txt files -->
   </div>
 
   <div class="btn-nav">
-    <IconAdd />
-    <span for="">Use font</span>
+    <IconAdd />  <!-- Button with IconAdd component -->
+    <span for="">Use font</span>  <!-- Text label for using a font -->
   </div>
 
   <div class="btn-nav">
-    <IconHardWrap />
-    <span for="">Hard wrap</span>
+    <IconHardWrap />  <!-- Button with IconHardWrap component -->
+    <span for="">Hard wrap</span>  <!-- Text label for hard wrapping -->
   </div>
-  <FeaturesData />
+  <FeaturesData />  <!-- FeaturesData component for additional functionality -->
 </template>
 
 <style scoped lang="scss">
@@ -41,14 +42,6 @@ import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'
   align-items: center;
   gap: 5px;
 
-  // svg {
-  //   g {
-  //     path {
-  //       fill: red;
-  //     }
-  //   }
-  // }
-
   &:hover {
     background-color: $Black-op_07;
     border: 1px solid $Black-op_07;
@@ -56,7 +49,7 @@ import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'
   @include activeBtn;
 
   span {
-    @include Font-P;
+    @include Font-P;  // Apply styling for the text label
   }
 }
 </style>

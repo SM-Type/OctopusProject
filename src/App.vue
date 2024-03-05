@@ -50,7 +50,7 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
       <div class="iconContent">
         <IconHelp />
       </div>
-      <!-- What is Octopus? -->
+      <!-- Window with layers - axis VF -->
       <div class="iconContent">
         <IconLayer />
       </div>
@@ -97,11 +97,11 @@ export default {
   },
   methods: {
     handleBtnFooterClick() {
-      // Zmiana stanu na przemian między true i false
+      // Toggle the state between true and false
       this.isDashboardVisible = !this.isDashboardVisible
     },
     showDashboard() {
-      // Logika związana z wyświetlaniem DASHBOARD
+      // Logic related to displaying the DASHBOARD
     }
   }
 }
@@ -179,7 +179,7 @@ $body-section-padding: 10px;
 
     .element {
       width: 100%;
-      /* Dostosuj szerokość do ilości elementów (3 elementy w jednym wierszu) */
+      // Adjust width based on the number of elements (3 elements in one row)
       height: 100%;
       background-color: rgb(228, 161, 161);
     }

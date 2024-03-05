@@ -4,27 +4,27 @@ import textsModule from './texts';
 import fontsModule from './fonts';
 import fontInfo from './fontInfo';
 
-// import OT_VF_tags from './OT_VF-tags';
-// import OT_OT_tags from './OT_OT-tags';
-
+// Import Vuex module for managing features tags
 import Features_tags from './Features-tags';
 
+// Create the Vuex store
 const store = createStore({
   state: {
+    // Initial state with a null database
     database: null,
   },
   mutations: {
+    // Mutation to set the database in the state
     setDatabase(state, db) {
-      state.database = db;
+      state.database = db;  // Set the database in the state
     },
   },
   modules: {
-    // VF_tags: OT_VF_tags,
-    // OT_tags: OT_OT_tags,
-    Features_tags: Features_tags,
-    fontInfo: fontInfo,
-    texts: textsModule,
-    fonts: fontsModule,
+    // Include various Vuex modules for managing specific aspects of the application
+    Features_tags: Features_tags,  // Features tags module
+    fontInfo: fontInfo,  // Font information module
+    texts: textsModule,  // Texts module
+    fonts: fontsModule,  // Fonts module
   },
 });
 

@@ -1,21 +1,36 @@
+<!-- components/MangamentPanel.vue -->
+
+<!-- 
+  Purpose:
+  This component is responsible for transforming basic font settings in a text column.
+
+  Description:
+  Management panel component with various settings for font, OpenType (OT) features, and Variable Font (VF) axis.
+
+  HTML Structure:
+  - Font settings column
+    - Basic font settings: FontSize, Leading, Spacing, Language
+    - OpenType settings column
+  - Variable Font (VF) axis column
+-->
+
 <script setup>
+// Importing required components and libraries
 import CloseSpace from '@/components/CloseSpace.vue'
 import VFComp from '@/components/Mangament-VF.vue'
 import OTComp from '@/components/Mangament-OT.vue'
-
 import { ref, getCurrentInstance, onUnmounted } from 'vue'
-
-// Icons
 import IconFontSize from '@/components/icons/Icon-C-FontSize.vue'
 import IconLeading from '@/components/icons/Icon-C-Leading.vue'
 import IconSpacing from '@/components/icons/Icon-C-Spacing.vue'
 import IconLang from '@/components/icons/Icon-C-Language.vue'
 
+// Getting the current instance and required properties
 const instance = getCurrentInstance()
 const props = instance.props
 const emit = instance.emit
 
-// Dane pozostawione wewnątrz setup
+// Reactive variable defined within setup
 const formData = ref({
   fontSize: '64px',
   leading: '100%',
@@ -23,26 +38,29 @@ const formData = ref({
   language: 'en'
 })
 
-// Zmienna reaktywna również w setup
+// Reactive variable defined within setup
 const managementPanelOpen = ref(false)
 
+// Function to close the panel
 const closePanel = () => {
-  // Emitujemy zdarzenie do rodzica (Column.vue) informujące o zamknięciu panelu
+  // Emitting an event to the parent (Column.vue) to inform about the panel closure
   emit('close-panel')
 }
 
+// Function to close the management panel
 const closeManagementPanel = () => {
   managementPanelOpen.value = false
 }
 
-// Czyszczenie nasłuchiwania zdarzeń przy usuwaniu komponentu
+// Cleaning up event listeners when the component is unmounted
 onUnmounted(() => {
-  // Pamiętaj, aby wyczyścić nasłuchiwanie zdarzeń lub inne zasoby
+  // Remember to clean up event listeners or other resources
 })
 </script>
 
 <script>
 export default {
+  // Defining custom events for the component
   emits: ['closePanel', 'close-panel'],
   components: {
     CloseSpace,
@@ -53,11 +71,13 @@ export default {
 </script>
 
 <template>
+  <!-- Management panel component with various settings -->
   <div id="mangament-panel">
     <div id="MP-wrapper">
+      <!-- Font settings column -->
       <div id="MP-wrapper-FontSettings" class="MP-column">
-        <!-- FontSize | Leading | Spacing | Language -->
         <div id="MP-wrapper-BasicSettings" class="MP-row">
+          <!-- Basic font settings: FontSize, Leading, Spacing, Language -->
           <h6>Settings</h6>
           <div class="MP-ContentValue">
             <div class="contetnt-settings-row">
@@ -98,19 +118,21 @@ export default {
             </div>
           </div>
         </div>
-        <!-- Use OpenType settings, eg. SS01, CALT ()...) -->
+        <!-- OpenType settings column -->
         <div id="MP-wrapper-OTSettings" class="MP-row">
           <h6>OT features</h6>
           <div class="MP-ContentValue">
+            <!-- Using the OTComp component for OpenType settings -->
             <OTComp />
           </div>
         </div>
       </div>
-      <!-- Use VF axis -->
+      <!-- Variable Font (VF) axis column -->
       <div id="MP-wrapper-VFaxis" class="MP-column">
         <div id="MP-VFContent" class="MP-row">
           <h6>VF axis</h6>
           <div class="MP-ContentValue">
+            <!-- Using the VFComp component for Variable Font (VF) axis -->
             <VFComp />
           </div>
         </div>
@@ -118,6 +140,7 @@ export default {
     </div>
   </div>
 
+  <!-- CloseSpace component to handle panel closure -->
   <CloseSpace @click="closePanel" />
 </template>
 
@@ -125,9 +148,8 @@ export default {
 @import '../src/assets/main.scss';
 
 #mangament-panel {
+  // Styling for the management panel
   z-index: 2;
-  // display: none; // Open & close
-
   width: auto;
   height: auto;
   background-color: $MAIN-White;
@@ -137,6 +159,7 @@ export default {
   @include shadow-panel;
 
   #MP-wrapper {
+    // Styling for the wrapper containing columns
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -144,6 +167,7 @@ export default {
     padding: 10px;
 
     .MP-column {
+      // Styling for each column
       width: 110px;
       height: fit-content;
       display: flex;
@@ -154,51 +178,57 @@ export default {
       gap: 15px;
 
       .MP-row {
+        // Styling for each row within a column
         display: flex;
         flex-direction: column;
         gap: 15px;
 
         h6 {
+          // Styling for heading within a row
           width: 100%;
           height: auto;
           display: inherit;
         }
         .MP-ContentValue {
+          // Styling for content and values within a row
           display: inherit;
           flex-wrap: wrap;
           gap: 4px;
 
           .contetnt-settings-row {
+            // Styling for each setting row
             display: flex;
             align-items: center;
             gap: 20px;
 
             input {
+              // Styling for input elements
               border: 1px solid $Black-op_07;
               background-color: $Black-op_04;
             }
           }
 
           .item {
+            // Styling for each item
             width: auto;
             height: auto;
-            // background-color: aqua;
-
             padding: 8px 6px;
             border: 1px solid black;
             border-radius: $MAIN-radius-small;
-
             @include Font-P-mono;
           }
           .full-width {
+            // Styling for full-width items
             width: 100%;
           }
           .item-settings-value {
+            // Styling for input items related to settings
             width: 50px;
             background: none;
             border: 1px solid $Black-op_30;
 
             &:focus {
+              // Styling when the input is focused
               outline: none;
               background: none;
               color: $Akcent-dark;

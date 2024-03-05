@@ -1,7 +1,25 @@
-<!-- HW.vue -->
+<!-- components/HW.vue -->
+
+<!-- 
+  Purpose:
+  This component is designed for testing the functionality of HardWrap. 
+  Currently, it works well in a separate window in the interface. 
+  The goal is to integrate this code with the entire project.
+
+  Description:
+  Component for hard wrapping text with a user-defined number of characters per line.
+
+  HTML Structure:
+  - Input for setting the number of characters per line
+  - Input area for entering text
+  - Display the wrapped text with each line in a paragraph
+-->
+
 <template>
+  <!-- Component for hard wrapping text with user-defined characters per line -->
   <div>
-    <label for="charactersPerLine">Ilość znaków w wierszu:</label>
+    <!-- Input for setting the number of characters per line -->
+    <label for="charactersPerLine">Characters per line:</label>
     <input
       type="number"
       v-model="charactersPerLine"
@@ -9,9 +27,11 @@
       @input="updateWrappedText"
     />
 
-    <label for="inputText">Tekst:</label>
+    <!-- Input area for entering text -->
+    <label for="inputText">Text:</label>
     <textarea v-model="inputText" id="inputText" @input="updateWrappedText"></textarea>
 
+    <!-- Display the wrapped text with each line in a paragraph -->
     <div id="wrappedText">
       <p v-for="(line, index) in wrappedLines" :key="index">{{ line }}</p>
     </div>
@@ -22,15 +42,17 @@
 export default {
   data() {
     return {
-      charactersPerLine: 10,
-      inputText: 'HardWrap!',
-      wrappedLines: ['HardWrap!'],
+      charactersPerLine: 10,        // Default number of characters per line
+      inputText: 'HardWrap!',       // Default input text
+      wrappedLines: ['HardWrap!'],  // Default wrapped lines
     }
   },
   methods: {
+    // Update the wrapped text when input changes
     updateWrappedText() {
-      this.wrappedLines = this.splitTextIntoLines(this.inputText, this.charactersPerLine)
+      this.wrappedLines = this.splitTextIntoLines(this.inputText, this.charactersPerLine);
     },
+    // Split text into lines based on the specified characters per line
     splitTextIntoLines(text, charactersPerLine) {
       const lines = []
       let currentLine = ''

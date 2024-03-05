@@ -1,5 +1,20 @@
 <!-- components/FeaturesData.vue -->
+
+<!-- 
+  Purpose:
+  This component allows users to import a font file and fetch data from its GSUB and FVAR tables. 
+  The fetched data is then used in the Vuex store.
+
+  Description:
+  File input for font import with functionality to handle font import, fetch GSUB and FVAR tags, 
+  and update the Vuex store with the obtained data.
+
+  HTML Structure:
+  - File input for font import
+-->
+
 <template>
+  <!-- File input for font import -->
   <div>
     <input type="file" ref="fontInput" @change="importFont" />
   </div>
@@ -12,11 +27,15 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
+// References for font variation and substitution tags
 const fvarTags = ref([]);
 const gsubTags = ref([]);
+
+// References for selected and user-selected fonts
 const selectedFont = ref(null);
 const userSelectedFont = ref(null);
 
+// Function to handle font import
 async function importFont(event) {
   const file = event.target.files[0];
 
@@ -26,27 +45,28 @@ async function importFont(event) {
   }
 
   try {
+    // Read font file as ArrayBuffer
     const fontArrayBuffer = await file.arrayBuffer();
     const loadedFont = opentype.parse(fontArrayBuffer);
 
-    // Czyść tablice przy każdym nowym imporcie
+    // Clear arrays on each new import
     fvarTags.value = [];
     gsubTags.value = [];
 
-    // Pobierz tagi z fvar, jeśli istnieją
+    // Get tags from fvar if they exist
     if (loadedFont.tables.fvar && loadedFont.tables.fvar.axes) {
       for (const axis of loadedFont.tables.fvar.axes) {
         fvarTags.value.push(axis.tag);
       }
 
-      // Wywołaj akcje fetchDefaultAxesData tylko jeśli osie fvar istnieją
+      // Call the fetchDefaultAxesData action only if fvar axes exist
       await store.dispatch('fetchDefaultAxesData', loadedFont.tables.fvar.axes);
     } else {
-      // Jeśli font nie ma osi fvar, wyczyść dane osi z store
+      // If the font has no fvar axes, clear axis data in the store
       await store.dispatch('fetchDefaultAxesData', []);
     }
 
-    // Pobierz tagi z gsub.features, jeśli istnieją
+    // Get tags from gsub.features if they exist
     if (loadedFont.tables.gsub && loadedFont.tables.gsub.features) {
       const uniqueGsubTags = new Set();
 
@@ -56,24 +76,26 @@ async function importFont(event) {
         }
       }
 
-      // Przekształć Set na tablicę
+      // Transform Set to an array
       gsubTags.value = Array.from(uniqueGsubTags);
     }
 
+    // Set references to the loaded font and its name
     selectedFont.value = loadedFont;
     userSelectedFont.value = loadedFont.names.fullName.en;
 
-    // Wywołaj akcje fetchVFData i fetchOTData
+    // Call the fetchVFData and fetchOTData actions
     await store.dispatch('fetchVFData', fvarTags.value);
     await store.dispatch('fetchOTData', gsubTags.value);
+    await store.commit('setSelectedFontName', userSelectedFont.value);
 
-    // Tutaj możesz dalej manipulować danymi lub przekazywać je do innych części aplikacji
-    console.log('Tagi z fvar:', fvarTags.value);
-    console.log('Tagi z gsub.features:', gsubTags.value);
-    console.log('Wybrany font:', selectedFont.value);
+    // Further manipulation or passing data to other parts of the application can be done here
+    console.log('Tags from fvar:', fvarTags.value);
+    console.log('Tags from gsub.features:', gsubTags.value);
+    console.log('Selected font:', selectedFont.value);
     console.log('User-selected font:', userSelectedFont.value);
   } catch (err) {
-    console.error('Błąd podczas ładowania fontu:', err);
+    console.error('Error loading font:', err);
   }
 }
 </script>

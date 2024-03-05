@@ -4,29 +4,39 @@ import ColumnSetting from '@/components/ColumnSetting.vue'
 import { ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 
+// Access the Vuex store
 const store = useStore()
 
+// Reference to the font variation tags
 const fvarTags = ref([])
 
-// Reakcja na zmiany w store/Features-tags.js
+// Reference to the default axes data
+const defaultAxesData = ref([])
+
+// Reference to the selected font name
+const selectedFontName = ref(null);
+
+// Watch for changes in VFData and update fvarTags
 watchEffect(() => {
   fvarTags.value = store.getters.getVFData
 })
 
-// Pobieranie wartości domyślnych dla osi VF
-const defaultAxesData = ref([]);
+// Watch for changes in default axes data and selected font name
 watchEffect(() => {
-  defaultAxesData.value = store.getters.getDefaultAxesData;
-});
+  defaultAxesData.value = store.getters.getDefaultAxesData
+  selectedFontName.value = store.getters.getSelectedFontName;
+})
 </script>
 
 <template>
   <div>
+    <!-- Navigation section containing ColumnSetting component and a slot for content -->
     <nav>
       <ColumnSetting />
       <slot name="content"></slot>
+      <!-- Display selected font name and font variation tags -->
       <div class="axis-nav">
-        {{ fvarTags.join(', ') }}
+        {{ selectedFontName }} | {{ fvarTags.join(', ') }}
       </div>
     </nav>
   </div>
@@ -42,11 +52,11 @@ nav {
   flex-direction: row;
   gap: 10px;
   p {
-    @include Font-Mono;
+    @include Font-Mono; // Apply the Font-Mono mixin to paragraphs within the navigation
   }
 }
 
 .axis-nav {
-  @include Font-Mono;
+  @include Font-Mono; // Apply the Font-Mono mixin to the axis-nav class
 }
 </style>

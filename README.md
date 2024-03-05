@@ -8,7 +8,7 @@ Octopus is useful as a QA tool, as looking in-between masters can catch inconsis
 
 Octopus is also useful for comparing your design to other designs, your roman to your italic, and so on.
 
-Octopus can use premade texts to test into. A growing body of sample texts are available from github.com/SorkinType/octo-text
+Octopus can use premade texts to test into. A growing body of sample texts are available from https://github.com/SorkinType/octo-text
 
 # How to Access Octopus?
 
