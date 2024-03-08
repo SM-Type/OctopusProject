@@ -5,8 +5,6 @@ import eksportJSON from './components/EksportJSON.vue'
 import HardWrapComponent from './components/HW.vue'
 import DashboardComponent from './components/DashboardComponent.vue'
 
-import FontEditor from './components/FontEditor.vue';
-
 // ICONS
 import IconEye from './components/icons/Icon-M-Eye.vue'
 // import IconEyeOff from './components/icons/Icon-M-Eye-off.vue'
@@ -74,7 +72,7 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
       <span>V.0.0.1</span>
     </div>
   </footer>
-  <FontEditor />
+  
 </template>
 
 <script>
@@ -93,7 +91,6 @@ export default {
     HardWrapComponent,
     DashboardComponent,
     Row,
-    FontEditor,
   },
   methods: {
     handleBtnFooterClick() {

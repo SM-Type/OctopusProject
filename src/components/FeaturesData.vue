@@ -16,7 +16,7 @@
 <template>
   <!-- File input for font import -->
   <div>
-    <input type="file" ref="fontInput" @change="importFont" />
+    <input type="file" ref="fontInput" @change="handleFileUpload" accept=".otf, .ttf, .woff" />
   </div>
 </template>
 
@@ -35,18 +35,35 @@ const gsubTags = ref([]);
 const selectedFont = ref(null);
 const userSelectedFont = ref(null);
 
-// Function to handle font import
-async function importFont(event) {
-  const file = event.target.files[0];
+const fileName = ref('');
 
-  if (!file) {
-    console.error('Empty axis value');
-    return;
+// Function to handle file upload
+async function handleFileUpload(event) {
+  const fileInput = event.target;
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    await processFontFile(file);
   }
+}
 
+// Function to read file as ArrayBuffer
+function readFileAsArrayBuffer(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      resolve(event.target.result);
+    };
+    reader.onerror = (error) => {
+      reject(error);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+// Function to handle font import
+async function processFontFile(file) {
   try {
-    // Read font file as ArrayBuffer
-    const fontArrayBuffer = await file.arrayBuffer();
+    const fontArrayBuffer = await readFileAsArrayBuffer(file);
     const loadedFont = opentype.parse(fontArrayBuffer);
 
     // Clear arrays on each new import
@@ -89,6 +106,9 @@ async function importFont(event) {
     await store.dispatch('fetchOTData', gsubTags.value);
     await store.commit('setSelectedFontName', userSelectedFont.value);
 
+    // Dynamically apply font style
+    applyCustomFontStyle(loadedFont);
+
     // Further manipulation or passing data to other parts of the application can be done here
     console.log('Tags from fvar:', fvarTags.value);
     console.log('Tags from gsub.features:', gsubTags.value);
@@ -98,6 +118,44 @@ async function importFont(event) {
     console.error('Error loading font:', err);
   }
 }
+
+// Function to dynamically apply font style
+function applyCustomFontStyle(loadedFont) {
+  // Check if FontFace is available in the browser
+  if (typeof FontFace !== 'undefined') {
+    const style = document.createElement('style');
+    const blob = new Blob([new Uint8Array(loadedFont.toArrayBuffer())], { type: 'font/opentype' });
+    const fontDataUrl = URL.createObjectURL(blob);
+
+    // Create FontFace and add it to the document
+    const customFont = new FontFace('CustomFont', `url(${fontDataUrl})`);
+    customFont.load().then(
+      (font) => {
+        document.fonts.add(font);
+
+        // Set custom font in body
+        document.body.style.fontFamily = 'CustomFont';
+
+        // Add style to the document
+        style.appendChild(document.createTextNode(`@font-face { font-family: 'CustomFont'; src: url('${fontDataUrl}'); }`));
+        document.head.appendChild(style);
+
+        // Apply custom font to elements with the class .textarea
+        const useFont = document.querySelectorAll('.textarea');
+        useFont.forEach((e) => {
+          e.style.fontFamily = 'CustomFont';
+          e.style.fontVariationSettings = "'wdth' 1000";
+        });
+      },
+      (error) => {
+        console.error('Error loading custom font:', error);
+      }
+    );
+  } else {
+    console.error('FontFace is not supported in this browser.');
+  }
+}
 </script>
+
 
 <style scoped lang="scss"></style>

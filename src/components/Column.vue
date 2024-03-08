@@ -1,7 +1,8 @@
 <!-- components/Column.vue -->
 <script setup>
 import AxisNavContent from '@/components/AxisNavContent.vue'
-import { ref, watch } from 'vue'
+import FeaturesData from '@/components/FeaturesData.vue'
+import { ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
 
 // Access the Vuex store
@@ -13,14 +14,29 @@ const font = ref(null)
 // Track cursor position in the text area
 const cursorPosition = ref({ start: 0, end: 0 })
 
-// Watch for changes in the selected font and update the font reference
+// Korzystaj z obliczonej właściwości do śledzenia zaimportowanej czcionki
+const importedFont = computed(() => store.state.customFontModule.importedFont);
+
+// Funkcja do zastosowania zaimportowanej czcionki na <textarea>
+function applyImportedFont() {
+  const useFont = document.querySelectorAll('.textarea');
+
+  useFont.forEach((e) => {
+    e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial';
+  });
+}
+
+// Zaaplikuj czcionkę na załadowanie komponentu
+applyImportedFont();
+
+// Watch for changes in the imported font and update the font reference
 watch(
-  () => store.state.fonts.selectedFont,
-  (newFont) => {
-    userSelectedFont.value = null // Reset user-selected font when the system font changes
-    font.value = newFont
+  () => importedFont.value,
+  () => {
+    // Call the function to apply the imported font
+    applyImportedFont();
   }
-)
+);
 </script>
 
 <template>
@@ -38,6 +54,7 @@ watch(
     <!-- Text area for input and editing -->
     <div class="column-text-area">
       <textarea
+        class = "textarea"
         :id="'p-' + rowIndex + '-c' + columnIndex"
         v-model="sharedText"
         @input="wrapText"
@@ -57,6 +74,30 @@ export default {
     return {
       isTextSelected: false
     }
+  },
+  setup() {
+    const store = useStore();
+
+    console.log("Hello");
+    // Korzystaj z obliczonej właściwości do śledzenia zaimportowanej czcionki
+    const importedFont = computed(() => store.state.customFontModule.importedFont);
+
+    // Funkcja do zastosowania zaimportowanej czcionki na <textarea>
+    function applyImportedFont() {
+      const useFont = document.querySelectorAll('.textarea');
+
+      useFont.forEach((e) => {
+        e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial';
+      });
+    }
+
+    // Zaaplikuj czcionkę na załadowanie komponentu
+    applyImportedFont();
+
+    return {
+      // Zwróć funkcję, aby można ją było użyć w komponencie
+      applyImportedFont,
+    };
   },
   computed: {
     // Get and set sharedText from the Vuex store
@@ -130,7 +171,10 @@ export default {
       type: Array,
       default: () => []
     }
-  }
+  },
+  components: {
+    FeaturesData,
+  },
 }
 </script>
 
@@ -154,6 +198,9 @@ export default {
       padding: 0 $paddingTextArea;
       resize: none;
       font-size: 64px;
+    }
+    .textarea {
+      font-variation-settings: 'wdth' 1000;
     }
   }
 }

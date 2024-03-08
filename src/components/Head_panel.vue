@@ -26,6 +26,16 @@ import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'  // Import the
   <FeaturesData />  <!-- FeaturesData component for additional functionality -->
 </template>
 
+<script>
+export default {
+  components: {
+    IconAdd,
+    IconHardWrap,
+    FeaturesData,
+  }
+}
+</script>
+
 <style scoped lang="scss">
 @import '../assets/main.scss';
 

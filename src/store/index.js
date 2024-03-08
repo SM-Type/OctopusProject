@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import textsModule from './texts';
 import fontsModule from './fonts';
 import fontInfo from './fontInfo';
+import customFontModule from './customFontModule'; // add
 
 // Import Vuex module for managing features tags
 import Features_tags from './Features-tags';
@@ -25,6 +26,7 @@ const store = createStore({
     fontInfo: fontInfo,  // Font information module
     texts: textsModule,  // Texts module
     fonts: fontsModule,  // Fonts module
+    customFontModule: customFontModule, // add
   },
 });
 
