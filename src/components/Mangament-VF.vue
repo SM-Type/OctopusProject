@@ -1,18 +1,31 @@
-<!-- components/Mangament-VF.vue -->
+<!-- components/Management-VF.vue -->
 <script setup>
-import { ref, watchEffect } from 'vue'
-import { useStore } from 'vuex'
+import { ref, onMounted, watchEffect } from 'vue';
+import { useStore } from 'vuex';
 
 // Access the Vuex store
-const store = useStore()
+const store = useStore();
 
 // Reactive variable to store VF (Variable Font) data
-const VFData = ref([])
+const VFData = ref([]);
 
 // React to changes in store/Features-tags.js
 watchEffect(() => {
-  VFData.value = store.getters.getDefaultAxesData
-})
+  // Get VF data from the Vuex store
+  VFData.value = store.getters.getVFData;
+});
+
+// Mounted lifecycle hook to initialize VFData from the Vuex store
+onMounted(() => {
+  VFData.value = store.getters.getVFData;
+  // Uncomment the following line if you need to fetch VFData from the store
+  // store.dispatch('fetchVFData')
+});
+
+// Function to update VFData in Vuex store
+function updateVFData() {
+  store.dispatch('updateVFData', VFData.value);
+}
 </script>
 
 <template>
@@ -23,7 +36,7 @@ watchEffect(() => {
       <!-- Display each VF item with a tag and input for default value -->
       <div v-for="item in VFData" :key="item.tag" class="VF-item">
         <span>{{ item.tag }}</span>
-        <input v-model="item.defaultValue" type="text" name="name" id="" class="VF-input" />
+        <input v-model="item.defaultValue" type="text" name="name" id="" class="VF-input" @change="updateVFData" />
       </div>
     </div>
     <!-- Display a message if VFData is empty -->
@@ -32,6 +45,20 @@ watchEffect(() => {
     </div>
   </div>
 </template>
+
+
+<script>
+export default {
+  methods: {
+    // Method to dispatch Vuex action and update VF data
+    updateVFData(item) {
+      // Dispatch action to update VF data in Vuex
+      this.$store.dispatch('updateVFData', VFData.value);
+      // Additional logic, if needed
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 @import '../src/assets/main.scss';

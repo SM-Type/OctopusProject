@@ -7,8 +7,8 @@ import { useStore } from 'vuex'
 // Access the Vuex store
 const store = useStore()
 
-// Reference to the font variation tags
-const fvarTags = ref([])
+// Reference to the font variation data (tag and default value)
+const vfData = ref([])
 
 // Reference to the default axes data
 const defaultAxesData = ref([])
@@ -16,9 +16,14 @@ const defaultAxesData = ref([])
 // Reference to the selected font name
 const selectedFontName = ref(null);
 
-// Watch for changes in VFData and update fvarTags
+// Watch for changes in VFData and update vfData
 watchEffect(() => {
-  fvarTags.value = store.getters.getVFData
+  vfData.value = store.getters.getVFData
+    .filter(axis => axis.tag && axis.defaultValue)
+    .map(axis => ({
+      tag: axis.tag,
+      defaultValue: axis.defaultValue
+    }));
 })
 
 // Watch for changes in default axes data and selected font name
@@ -34,13 +39,19 @@ watchEffect(() => {
     <nav>
       <ColumnSetting />
       <slot name="content"></slot>
-      <!-- Display selected font name and font variation tags -->
+      <!-- Display selected font name and font variation tags with default values -->
       <div class="axis-nav">
-        {{ selectedFontName }} | {{ fvarTags.join(', ') }}
+        <span v-if="vfData.length > 0">
+          {{ vfData.map(axis => `${axis.tag}: ${axis.defaultValue}`).join(', ') }}
+        </span>
+        <span v-else>
+          No Variable Font data available.
+        </span>
       </div>
     </nav>
   </div>
 </template>
+
 
 <style scoped lang="scss">
 @import '../assets/main.scss';

@@ -1,54 +1,48 @@
 <!-- components/Mangament-OT.vue -->
-<script setup>
-// Import statement (currently commented out) for ManagementPanel.vue
-// import ManagementPanel from '@/components/ManagementPanel.vue'
-</script>
-
 <template>
-  <!-- OpenType (OT) features list component -->
-  <div class="OT-list">
-    <!-- Display each OpenType feature in a separate item -->
-    <div v-for="item in OTData" :key="item" class="OT-item">
+  <!-- GSUB features list component -->
+  <div class="GSUB-list">
+    <!-- Display each GSUB feature in a separate item -->
+    <div v-for="item in GSUBData" :key="item" class="GSUB-item">
       <!-- Placeholder for enable/disable icon or button -->
       <span>{{ item }}</span>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      // Data property to store OpenType (OT) features
-      OTData: []
-    }
-  },
-  // Watcher to react to changes in the OTData from the Vuex store
-  watch: {
-    '$store.getters.getOTData'(newOTData) {
-      this.OTData = newOTData
-    }
-  },
-  // Mounted lifecycle hook to initialize OTData from the Vuex store
-  mounted() {
-    this.OTData = this.$store.getters['getOTData'];
-    // Uncomment the following line if you need to fetch OTData from the store
-    // this.$store.dispatch('fetchOTData')
-  }
-}
+<script setup>
+import { ref, onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore(); // Access the Vuex store
+
+const GSUBData = ref([]); // Reactive variable to store GSUB features
+
+// Watcher to react to changes in the GSUBData from the Vuex store
+watch(() => store.getters.getGSUBData, (newGSUBData) => {
+  GSUBData.value = newGSUBData;
+});
+
+// Mounted lifecycle hook to initialize GSUBData from the Vuex store
+onMounted(() => {
+  GSUBData.value = store.getters.getGSUBData;
+  // Uncomment the following line if you need to fetch GSUBData from the store
+  // store.dispatch('fetchGSUBData')
+});
 </script>
+
 
 <style lang="scss">
 @import '../src/assets/main.scss';
 
-.OT-list {
+.GSUB-list {
   // Styling for the container of OpenType (OT) feature items
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   gap: 4px 6px;
 
-  .OT-item {
+  .GSUB-item {
     // Styling for each OpenType (OT) feature item
     width: auto;
     height: auto;

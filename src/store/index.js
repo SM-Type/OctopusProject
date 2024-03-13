@@ -13,11 +13,15 @@ const store = createStore({
   state: {
     // Initial state with a null database
     database: null,
+    fontLoaded: false,
   },
   mutations: {
     // Mutation to set the database in the state
     setDatabase(state, db) {
       state.database = db;  // Set the database in the state
+    },
+    setFontLoaded(state, value) {
+      state.fontLoaded = value
     },
   },
   modules: {

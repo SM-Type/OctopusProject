@@ -12,7 +12,7 @@ const store = useStore()
 const font = ref(null)
 
 // Track cursor position in the text area
-const cursorPosition = ref({ start: 0, end: 0 })
+const cursorPosition = ref({ start: 0, end: 1000 })
 
 // Korzystaj z obliczonej właściwości do śledzenia zaimportowanej czcionki
 const importedFont = computed(() => store.state.customFontModule.importedFont);

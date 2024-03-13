@@ -13,17 +13,14 @@ import IconHardWrap from '@/components/icons/Icon-M-HardWrap.vue'  // Import the
     <IconAdd />  <!-- Button with IconAdd component -->
     <span for="">Import .txt</span>  <!-- Text label for importing .txt files -->
   </div>
-
-  <div class="btn-nav">
-    <IconAdd />  <!-- Button with IconAdd component -->
-    <span for="">Use font</span>  <!-- Text label for using a font -->
-  </div>
+  
+  <FeaturesData />  <!-- FeaturesData component for additional functionality -->
 
   <div class="btn-nav">
     <IconHardWrap />  <!-- Button with IconHardWrap component -->
     <span for="">Hard wrap</span>  <!-- Text label for hard wrapping -->
   </div>
-  <FeaturesData />  <!-- FeaturesData component for additional functionality -->
+  
 </template>
 
 <script>

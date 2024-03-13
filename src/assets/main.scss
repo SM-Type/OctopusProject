@@ -144,7 +144,7 @@ span {
   background-color: $Black-op_04;
   border: 1px solid $Black-op_07;
   border-radius: $MAIN-radius-small;
-  padding: 8px 10px;
+  padding: 6px 8px;
   outline: none;
   &:focus {
     background-color: $White-basic;
@@ -195,7 +195,7 @@ textarea {
   /* border-radius: 6px; */
   padding: 4px;
   border-radius: $MAIN-radius-small;
-  border: 1px solid $White-basic;
+  border: 1px solid $Black-op_07;
   &:hover {
     background-color: $Black-op_07;
     border: 1px solid $Black-op_07;
@@ -206,4 +206,3 @@ path{
   // fill:red;
   fill: $Black-basic;
 }
-

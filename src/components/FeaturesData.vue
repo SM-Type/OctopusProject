@@ -12,150 +12,228 @@
   HTML Structure:
   - File input for font import
 -->
-
+<!-- components/FeaturesData.vue -->
+<!-- components/FeaturesData.vue -->
 <template>
   <!-- File input for font import -->
-  <div>
-    <input type="file" ref="fontInput" @change="handleFileUpload" accept=".otf, .ttf, .woff" />
+  <div class="fontImportInput-container">
+    <IconAdd />
+    <input
+      class="fontImportInput"
+      type="file"
+      ref="fontInput"
+      @change="handleFileUpload"
+      accept=".otf, .ttf, .woff"
+    />
+    <label class="fontImportInput-label">Use font</label>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import opentype from 'opentype.js';
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
+import { ref, watch, onMounted } from 'vue'
+import IconAdd from '@/components/icons/Icon-M-Add_Circle.vue'
+import opentype from 'opentype.js'
 
-const store = useStore();
+const fvarTags = ref([])
+const gsubTags = ref([])
+const selectedFont = ref(null)
+const userSelectedFont = ref(null)
 
-// References for font variation and substitution tags
-const fvarTags = ref([]);
-const gsubTags = ref([]);
+const fontLoaded = ref(false)
 
-// References for selected and user-selected fonts
-const selectedFont = ref(null);
-const userSelectedFont = ref(null);
-
-const fileName = ref('');
+const store = useStore() // Access the Vuex store
 
 // Function to handle file upload
-async function handleFileUpload(event) {
-  const fileInput = event.target;
+function handleFileUpload(event) {
+  const fileInput = event.target
   if (fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    await processFontFile(file);
+    const file = fileInput.files[0]
+    processFontFile(file)
   }
 }
 
-// Function to read file as ArrayBuffer
-function readFileAsArrayBuffer(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      resolve(event.target.result);
-    };
-    reader.onerror = (error) => {
-      reject(error);
-    };
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-// Function to handle font import
-async function processFontFile(file) {
+// Function to handle font import with Opentype.js
+function processFontFile(file) {
   try {
-    const fontArrayBuffer = await readFileAsArrayBuffer(file);
-    const loadedFont = opentype.parse(fontArrayBuffer);
+    const fontPath = URL.createObjectURL(file)
 
-    // Clear arrays on each new import
-    fvarTags.value = [];
-    gsubTags.value = [];
+    // Function to get unique OT Tags
+    function getUniqueGSUBTags(features) {
+      const uniqueTags = new Set()
 
-    // Get tags from fvar if they exist
-    if (loadedFont.tables.fvar && loadedFont.tables.fvar.axes) {
-      for (const axis of loadedFont.tables.fvar.axes) {
-        fvarTags.value.push(axis.tag);
-      }
-
-      // Call the fetchDefaultAxesData action only if fvar axes exist
-      await store.dispatch('fetchDefaultAxesData', loadedFont.tables.fvar.axes);
-    } else {
-      // If the font has no fvar axes, clear axis data in the store
-      await store.dispatch('fetchDefaultAxesData', []);
-    }
-
-    // Get tags from gsub.features if they exist
-    if (loadedFont.tables.gsub && loadedFont.tables.gsub.features) {
-      const uniqueGsubTags = new Set();
-
-      for (const feature of loadedFont.tables.gsub.features) {
+      features.forEach((feature) => {
         if (feature.tag) {
-          uniqueGsubTags.add(feature.tag);
+          uniqueTags.add(feature.tag)
         }
-      }
+      })
 
-      // Transform Set to an array
-      gsubTags.value = Array.from(uniqueGsubTags);
+      return Array.from(uniqueTags)
     }
 
-    // Set references to the loaded font and its name
-    selectedFont.value = loadedFont;
-    userSelectedFont.value = loadedFont.names.fullName.en;
-
-    // Call the fetchVFData and fetchOTData actions
-    await store.dispatch('fetchVFData', fvarTags.value);
-    await store.dispatch('fetchOTData', gsubTags.value);
-    await store.commit('setSelectedFontName', userSelectedFont.value);
-
-    // Dynamically apply font style
-    applyCustomFontStyle(loadedFont);
-
-    // Further manipulation or passing data to other parts of the application can be done here
-    console.log('Tags from fvar:', fvarTags.value);
-    console.log('Tags from gsub.features:', gsubTags.value);
-    console.log('Selected font:', selectedFont.value);
-    console.log('User-selected font:', userSelectedFont.value);
-  } catch (err) {
-    console.error('Error loading font:', err);
-  }
-}
-
-// Function to dynamically apply font style
-function applyCustomFontStyle(loadedFont) {
-  // Check if FontFace is available in the browser
-  if (typeof FontFace !== 'undefined') {
-    const style = document.createElement('style');
-    const blob = new Blob([new Uint8Array(loadedFont.toArrayBuffer())], { type: 'font/opentype' });
-    const fontDataUrl = URL.createObjectURL(blob);
-
-    // Create FontFace and add it to the document
-    const customFont = new FontFace('CustomFont', `url(${fontDataUrl})`);
-    customFont.load().then(
-      (font) => {
-        document.fonts.add(font);
-
-        // Set custom font in body
-        document.body.style.fontFamily = 'CustomFont';
-
-        // Add style to the document
-        style.appendChild(document.createTextNode(`@font-face { font-family: 'CustomFont'; src: url('${fontDataUrl}'); }`));
-        document.head.appendChild(style);
-
-        // Apply custom font to elements with the class .textarea
-        const useFont = document.querySelectorAll('.textarea');
-        useFont.forEach((e) => {
-          e.style.fontFamily = 'CustomFont';
-          e.style.fontVariationSettings = "'wdth' 1000";
-        });
-      },
-      (error) => {
-        console.error('Error loading custom font:', error);
+    // Use Opentype.js to parse the font
+    opentype.load(fontPath, (err, loadedFont) => {
+      if (err) {
+        console.error('Error loading font with Opentype.js:', err)
+        return
       }
-    );
-  } else {
-    console.error('FontFace is not supported in this browser.');
+
+      // Check if the font has VF axes
+      if (
+        !loadedFont.tables.fvar ||
+        !loadedFont.tables.fvar.axes ||
+        loadedFont.tables.fvar.axes.length === 0
+      ) {
+        const customFont = new FontFace('CustomFont', `url(${fontPath})`)
+        customFont.load().then((font) => {
+          document.fonts.add(font)
+          document.body.style.fontFamily = 'CustomFont'
+
+          // Apply to elements with the class .textarea
+          const useFont = document.querySelectorAll('.textarea')
+
+          useFont.forEach((e) => {
+            e.style.fontFamily = 'CustomFont'
+          })
+          // Set fontLoaded to true after successful loading
+          fontLoaded.value = true
+          // Dispatch action to update GSUB data in Vuex
+          store.dispatch('fetchGSUBData', getUniqueGSUBTags(loadedFont.tables.gsub.features))
+          // Dispatch action to update VF data in Vuex
+          store.dispatch('fetchVFData', []);
+        })
+
+        // Log OT GSUB Features information
+        console.log('OT GSUB Tags:', getUniqueGSUBTags(loadedFont.tables.gsub.features))
+        // Log for static font
+        console.warn('Font does not have VF axes.')
+        return
+      }
+      // Log OT GSUB Features information
+      console.log('OT GSUB Tags:', getUniqueGSUBTags(loadedFont.tables.gsub.features))
+
+      // Log VF axes information
+      // TAG name
+      console.log(
+        'VF Axes Tag:',
+        loadedFont.tables.fvar.axes.map((axis) => axis.tag)
+      )
+      // Default Value for all Tags
+      console.log(
+        'VF defaultValue',
+        loadedFont.tables.fvar.axes.map((axis) => axis.defaultValue)
+      )
+      // Max and min. Value for all Tags
+      console.log(
+        'VF minValue:',
+        loadedFont.tables.fvar.axes.map((axis) => axis.minValue)
+      )
+      console.log(
+        'VF maxValue:',
+        loadedFont.tables.fvar.axes.map((axis) => axis.maxValue)
+      )
+
+      // Continue with FontFace API to apply the font as before
+      if (
+        loadedFont.tables.fvar &&
+        loadedFont.tables.fvar.axes &&
+        loadedFont.tables.fvar.axes.length > 0
+      ) {
+        const customFont = new FontFace('CustomFont', `url(${fontPath})`)
+        customFont.load().then(
+          (font) => {
+            document.fonts.add(font)
+            document.body.style.fontFamily = 'CustomFont'
+
+            // Apply to elements with the class .textarea
+            const useFont = document.querySelectorAll('.textarea')
+            useFont.forEach((e) => {
+              const fontVariationSettings = loadedFont.tables.fvar.axes
+                .map((axis) => `'${axis.tag}' ${axis.defaultValue}`)
+                .join(', ')
+              e.style.fontFamily = 'CustomFont'
+              e.style.fontVariationSettings = fontVariationSettings
+            })
+
+            // Set fontLoaded to true after successful loading
+            fontLoaded.value = true
+
+            // Dispatch action to update GSUB data in Vuex
+            store.dispatch('fetchGSUBData', getUniqueGSUBTags(loadedFont.tables.gsub.features))
+
+            // Dispatch action to update VF data in Vuex
+            store.dispatch('fetchVFData', loadedFont.tables.fvar.axes);
+
+            // Watch for changes in VFData and apply fontVariationSettings
+            watch(
+              () => store.getters.getVFData,
+              (newVFData) => {
+                const fontVariationSettings = newVFData
+                  .map((axis) => `'${axis.tag}' ${axis.defaultValue}`)
+                  .join(', ')
+                useFont.forEach((e) => {
+                  e.style.fontVariationSettings = fontVariationSettings
+                })
+              },
+              { deep: true }
+            )
+          },
+          (error) => {
+            console.error('Error loading custom font:', error)
+          }
+        )
+      }
+    })
+  } catch (err) {
+    console.error('Error loading font:', err)
   }
 }
 </script>
 
+<style scoped lang="scss">
+@import '../assets/main.scss';
 
-<style scoped lang="scss"></style>
+.fontImportInput-container {
+  position: relative;
+  overflow: hidden;
+  padding: 6px 10px;
+
+  border-radius: $MAIN-radius-small;
+
+  height: fit-content;
+  background-color: $Black-op_04;
+  border: 1px solid $Black-op_04;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+
+  &:hover {
+    background-color: $Black-op_07;
+    border: 1px solid $Black-op_07;
+  }
+  @include activeBtn;
+}
+
+.fontImportInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fontImportInput-label {
+  display: inline-block;
+  cursor: pointer;
+  @include Font-P; // Apply styling for the text label
+}
+
+.fontImportInput-label:hover {
+  background-color: #2980b9;
+}
+</style>

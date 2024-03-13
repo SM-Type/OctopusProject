@@ -11,6 +11,8 @@ import IconEye from './components/icons/Icon-M-Eye.vue'
 import IconHelp from './components/icons/Icon-M-Help.vue'
 import IconLayer from './components/icons/Icon-M-Layers.vue'
 import IconTune from './components/icons/Icon-M-Tune.vue'
+import IconAdd from './components/icons/Icon-M-Add.vue'
+import IconMinus from './components/icons/Icon-M-Minus.vue'
 </script>
 
 <template>
@@ -25,7 +27,7 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
 
   <section id="body-section">
     <!-- Temporary "HardWrap", to transfer its functionality to a button in the Head_panel -->
-    <div id="testHW">
+    <div id="testHW" style="display: none">
       <HardWrapComponent />
     </div>
 
@@ -59,29 +61,34 @@ import IconTune from './components/icons/Icon-M-Tune.vue'
       </div>
       <!-- Inputs to set the number of columns and rows -->
       <div id="column-menager" class="border-wrap">
-        <label>Rows:</label>
-        <!-- for="rowsCount" -->
-        <input v-model="rowsCount" type="text" placeholder="Liczba wierszy" />
-        <label>Columns:</label>
-        <!--  for="columnsCount" -->
-        <input v-model="columnsCount" type="text" placeholder="Liczba elementów w wierszu" />
+        <div class="elementFooter-wrapper">
+          <label>Rows</label>
+          <div class="IconsGap-wrapper">
+            <button class="RC-btn-footer" @click="decrementRows"><IconMinus /></button>
+            <button class="RC-btn-footer" @click="incrementRows"><IconAdd /></button>
+          </div>
+        </div>
+
+        <div class="elementFooter-wrapper">
+          <label>Columns</label>
+          <div class="IconsGap-wrapper">
+            <button class="RC-btn-footer" @click="decrementColumns"><IconMinus /></button>
+            <button class="RC-btn-footer" @click="incrementColumns"><IconAdd /></button>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- Version app -->
-    <div class="wrapper">
-      <span>V.0.0.1</span>
-    </div>
   </footer>
-  
 </template>
 
 <script>
 export default {
   data() {
     return {
-      // Rows and Columns
-      rowsCount: '2',
-      columnsCount: '2',
+      minCount: 1,
+      maxCount: 10,
+      rowsCount: 2,
+      columnsCount: 2,
 
       // Dashboard component
       isDashboardVisible: false
@@ -90,9 +97,29 @@ export default {
   components: {
     HardWrapComponent,
     DashboardComponent,
-    Row,
+    Row
   },
   methods: {
+    incrementRows() {
+      if (this.rowsCount < this.maxCount) {
+        this.rowsCount++
+      }
+    },
+    decrementRows() {
+      if (this.rowsCount > this.minCount) {
+        this.rowsCount--
+      }
+    },
+    incrementColumns() {
+      if (this.columnsCount < this.maxCount) {
+        this.columnsCount++
+      }
+    },
+    decrementColumns() {
+      if (this.columnsCount > this.minCount) {
+        this.columnsCount--
+      }
+    },
     handleBtnFooterClick() {
       // Toggle the state between true and false
       this.isDashboardVisible = !this.isDashboardVisible
@@ -199,7 +226,8 @@ footer {
 
   .border-wrap {
     border-left: 1px solid $Black-op-30;
-    padding: 0 10px;
+    padding: 0 20px;
+    gap: 20px;
   }
 
   #column-menager {
@@ -253,5 +281,34 @@ footer {
       @include Font-small;
     }
   }
+  .elementFooter-wrapper {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    .IconsGap-wrapper {
+      display: flex;
+      gap: 10px;
+      .RC-btn-footer {
+        width: auto;
+        height: auto;
+        display: flex;
+        outline: none;
+        border: none;
+        margin: 0;
+        padding: 4px;
+
+        background-color: $Black-op_04;
+        border: 1px solid $Black-op_07;
+        border-radius: $MAIN-radius-small;
+
+        &:hover {
+          background-color: $Black-op_14;
+        }
+        @include activeBtn;
+      }
+    }
+  }
 }
-</style>
+</style>../public/test
