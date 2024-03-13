@@ -26,7 +26,7 @@ export default {
   methods: {
     // Method to emit an event signaling to show the dashboard
     showDashboard() {
-      this.$emit('show-dashboard');
+      this.$emit('show-dashboard')
     }
   }
 }
@@ -42,13 +42,13 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99999;  // Set the z-index to ensure the Dashboard Panel is on top of other elements
+  z-index: 99999; // Set the z-index to ensure the Dashboard Panel is on top of other elements
   .wrapp {
     width: max-content;
     height: max-content;
     padding: 40px;
     h3 {
-      color: $Color-red;  // Set the color of h3 elements to a variable value ($Color-red)
+      color: $Color-red; // Set the color of h3 elements to a variable value ($Color-red)
     }
   }
 }

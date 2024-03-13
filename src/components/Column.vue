@@ -15,28 +15,28 @@ const font = ref(null)
 const cursorPosition = ref({ start: 0, end: 1000 })
 
 // Korzystaj z obliczonej właściwości do śledzenia zaimportowanej czcionki
-const importedFont = computed(() => store.state.customFontModule.importedFont);
+const importedFont = computed(() => store.state.customFontModule.importedFont)
 
 // Funkcja do zastosowania zaimportowanej czcionki na <textarea>
 function applyImportedFont() {
-  const useFont = document.querySelectorAll('.textarea');
+  const useFont = document.querySelectorAll('.textarea')
 
   useFont.forEach((e) => {
-    e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial';
-  });
+    e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial'
+  })
 }
 
 // Zaaplikuj czcionkę na załadowanie komponentu
-applyImportedFont();
+applyImportedFont()
 
 // Watch for changes in the imported font and update the font reference
 watch(
   () => importedFont.value,
   () => {
     // Call the function to apply the imported font
-    applyImportedFont();
+    applyImportedFont()
   }
-);
+)
 </script>
 
 <template>
@@ -54,7 +54,7 @@ watch(
     <!-- Text area for input and editing -->
     <div class="column-text-area">
       <textarea
-        class = "textarea"
+        class="textarea"
         :id="'p-' + rowIndex + '-c' + columnIndex"
         v-model="sharedText"
         @input="wrapText"
@@ -62,8 +62,7 @@ watch(
         @keydown.enter.prevent="handleEnterKey"
         spellcheck="false"
       >
-        </textarea
-      >
+      </textarea>
     </div>
   </div>
 </template>
@@ -76,28 +75,28 @@ export default {
     }
   },
   setup() {
-    const store = useStore();
+    const store = useStore()
 
-    console.log("Hello");
+    console.log('Hello')
     // Korzystaj z obliczonej właściwości do śledzenia zaimportowanej czcionki
-    const importedFont = computed(() => store.state.customFontModule.importedFont);
+    const importedFont = computed(() => store.state.customFontModule.importedFont)
 
     // Funkcja do zastosowania zaimportowanej czcionki na <textarea>
     function applyImportedFont() {
-      const useFont = document.querySelectorAll('.textarea');
+      const useFont = document.querySelectorAll('.textarea')
 
       useFont.forEach((e) => {
-        e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial';
-      });
+        e.style.fontFamily = importedFont.value ? 'CustomFont' : 'initial'
+      })
     }
 
     // Zaaplikuj czcionkę na załadowanie komponentu
-    applyImportedFont();
+    applyImportedFont()
 
     return {
       // Zwróć funkcję, aby można ją było użyć w komponencie
-      applyImportedFont,
-    };
+      applyImportedFont
+    }
   },
   computed: {
     // Get and set sharedText from the Vuex store
@@ -173,8 +172,8 @@ export default {
     }
   },
   components: {
-    FeaturesData,
-  },
+    FeaturesData
+  }
 }
 </script>
 

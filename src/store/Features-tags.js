@@ -35,6 +35,7 @@ export default {
     // OT
     async fetchGSUBData({ commit }, gsubTags) {
       commit('setGSUBData', gsubTags) // Commit mutation to set GSUB data
+      // console.log(gsubTags);
     }
   },
   getters: {

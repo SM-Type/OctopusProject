@@ -9,10 +9,10 @@ export default {
   methods: {
     // Method to close the panel by emitting an event to the parent (ManagementPanel.vue)
     closePanel() {
-      this.$emit('close-panel'); // Emit an event to notify the parent (ManagementPanel.vue) about panel closure
+      this.$emit('close-panel') // Emit an event to notify the parent (ManagementPanel.vue) about panel closure
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

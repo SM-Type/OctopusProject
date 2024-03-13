@@ -1,5 +1,4 @@
 <!-- components/MangamentPanel.vue -->
-
 <!-- 
   Purpose:
   This component is responsible for transforming basic font settings in a text column.
@@ -13,7 +12,6 @@
     - OpenType settings column
   - Variable Font (VF) axis column
 -->
-
 <script setup>
 // Importing required components and libraries
 import CloseSpace from '@/components/CloseSpace.vue'
@@ -245,10 +243,10 @@ export default {
           height: fit-content;
           border-radius: $MAIN-radius-small;
 
-          &:active{
+          &:active {
             path {
-            fill: $Akcent-basic;
-          }
+              fill: $Akcent-basic;
+            }
           }
 
           &:hover {

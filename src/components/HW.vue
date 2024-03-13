@@ -1,5 +1,4 @@
 <!-- components/HW.vue -->
-
 <!-- 
   Purpose:
   This component is designed for testing the functionality of HardWrap. 
@@ -14,7 +13,6 @@
   - Input area for entering text
   - Display the wrapped text with each line in a paragraph
 -->
-
 <template>
   <!-- Component for hard wrapping text with user-defined characters per line -->
   <div>
@@ -42,15 +40,15 @@
 export default {
   data() {
     return {
-      charactersPerLine: 10,        // Default number of characters per line
-      inputText: 'HardWrap!',       // Default input text
-      wrappedLines: ['HardWrap!'],  // Default wrapped lines
+      charactersPerLine: 10, // Default number of characters per line
+      inputText: 'HardWrap!', // Default input text
+      wrappedLines: ['HardWrap!'] // Default wrapped lines
     }
   },
   methods: {
     // Update the wrapped text when input changes
     updateWrappedText() {
-      this.wrappedLines = this.splitTextIntoLines(this.inputText, this.charactersPerLine);
+      this.wrappedLines = this.splitTextIntoLines(this.inputText, this.charactersPerLine)
     },
     // Split text into lines based on the specified characters per line
     splitTextIntoLines(text, charactersPerLine) {

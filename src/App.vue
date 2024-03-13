@@ -1,3 +1,4 @@
+<!-- App.vue -->
 <script setup>
 import Head_panel from './components/Head_panel.vue'
 import Row from './components/Row.vue'
@@ -27,7 +28,7 @@ import IconMinus from './components/icons/Icon-M-Minus.vue'
 
   <section id="body-section">
     <!-- Temporary "HardWrap", to transfer its functionality to a button in the Head_panel -->
-    <div id="testHW" style="display: none">
+    <div id="testHW">
       <HardWrapComponent />
     </div>
 
@@ -311,4 +312,5 @@ footer {
     }
   }
 }
-</style>../public/test
+</style>
+../public/test

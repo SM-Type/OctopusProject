@@ -1,5 +1,4 @@
 <!-- components/FeaturesData.vue -->
-
 <!-- 
   Purpose:
   This component allows users to import a font file and fetch data from its GSUB and FVAR tables. 
@@ -12,7 +11,6 @@
   HTML Structure:
   - File input for font import
 -->
-<!-- components/FeaturesData.vue -->
 <!-- components/FeaturesData.vue -->
 <template>
   <!-- File input for font import -->
@@ -100,7 +98,7 @@ function processFontFile(file) {
           // Dispatch action to update GSUB data in Vuex
           store.dispatch('fetchGSUBData', getUniqueGSUBTags(loadedFont.tables.gsub.features))
           // Dispatch action to update VF data in Vuex
-          store.dispatch('fetchVFData', []);
+          store.dispatch('fetchVFData', [])
         })
 
         // Log OT GSUB Features information
@@ -148,11 +146,17 @@ function processFontFile(file) {
             // Apply to elements with the class .textarea
             const useFont = document.querySelectorAll('.textarea')
             useFont.forEach((e) => {
-              const fontVariationSettings = loadedFont.tables.fvar.axes
+              const vfSettings = loadedFont.tables.fvar.axes
                 .map((axis) => `'${axis.tag}' ${axis.defaultValue}`)
                 .join(', ')
+
+              const otSettings = getUniqueGSUBTags(loadedFont.tables.gsub.features)
+                .map((tag) => `'${tag}' 0`)
+                .join(', ')
+
               e.style.fontFamily = 'CustomFont'
-              e.style.fontVariationSettings = fontVariationSettings
+              e.style.fontVariationSettings = vfSettings
+              e.style.fontFeatureSettings = otSettings
             })
 
             // Set fontLoaded to true after successful loading
@@ -162,17 +166,21 @@ function processFontFile(file) {
             store.dispatch('fetchGSUBData', getUniqueGSUBTags(loadedFont.tables.gsub.features))
 
             // Dispatch action to update VF data in Vuex
-            store.dispatch('fetchVFData', loadedFont.tables.fvar.axes);
+            store.dispatch('fetchVFData', loadedFont.tables.fvar.axes)
 
             // Watch for changes in VFData and apply fontVariationSettings
             watch(
-              () => store.getters.getVFData,
-              (newVFData) => {
-                const fontVariationSettings = newVFData
+              [() => store.getters.getVFData, () => store.getters.getGSUBData],
+              ([newVFData, newGSUBData]) => {
+                const vfSettings = newVFData
                   .map((axis) => `'${axis.tag}' ${axis.defaultValue}`)
                   .join(', ')
+
+                const otSettings = newGSUBData.map((tag) => `'${tag}' 0`).join(', ')
+
                 useFont.forEach((e) => {
-                  e.style.fontVariationSettings = fontVariationSettings
+                  e.style.fontVariationSettings = vfSettings
+                  e.style.fontFeatureSettings = otSettings
                 })
               },
               { deep: true }

@@ -1,4 +1,5 @@
 <!-- components/Mangament-OT.vue -->
+
 <template>
   <!-- GSUB features list component -->
   <div class="GSUB-list">
@@ -11,26 +12,28 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useStore } from 'vuex';
+import { ref, onMounted, watch } from 'vue'
+import { useStore } from 'vuex'
 
-const store = useStore(); // Access the Vuex store
+const store = useStore() // Access the Vuex store
 
-const GSUBData = ref([]); // Reactive variable to store GSUB features
+const GSUBData = ref([]) // Reactive variable to store GSUB features
 
 // Watcher to react to changes in the GSUBData from the Vuex store
-watch(() => store.getters.getGSUBData, (newGSUBData) => {
-  GSUBData.value = newGSUBData;
-});
+watch(
+  () => store.getters.getGSUBData,
+  (newGSUBData) => {
+    GSUBData.value = newGSUBData
+  }
+)
 
 // Mounted lifecycle hook to initialize GSUBData from the Vuex store
 onMounted(() => {
-  GSUBData.value = store.getters.getGSUBData;
+  GSUBData.value = store.getters.getGSUBData
   // Uncomment the following line if you need to fetch GSUBData from the store
   // store.dispatch('fetchGSUBData')
-});
+})
 </script>
-
 
 <style lang="scss">
 @import '../src/assets/main.scss';

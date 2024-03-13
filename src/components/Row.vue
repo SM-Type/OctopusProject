@@ -1,7 +1,7 @@
 <!-- components/Row.vue -->
 <script setup>
-  // Import the Column component to be used in this Row component
-  import Column from "@/components/Column.vue";
+// Import the Column component to be used in this Row component
+import Column from '@/components/Column.vue'
 </script>
 
 <template>
@@ -13,8 +13,8 @@
       :key="columnIndex"
       :rowIndex="rowIndex"
       :columnIndex="columnIndex"
-      :fvarTags="['']"  
-      :charactersPerLine="charactersPerLine"  
+      :fvarTags="['']"
+      :charactersPerLine="charactersPerLine"
     />
     <!-- :fvarTags="['']"                         Provide an empty array as font variation tags -->
     <!-- :charactersPerLine="charactersPerLine"   Pass the characters per line value -->
@@ -27,19 +27,19 @@ export default {
     columnsCount: {
       type: Number,
       // Default number of columns in the row
-      default: 3,
+      default: 3
     },
     rowIndex: {
       type: Number,
       // Ensure a row index is provided as a required prop
-      required: true,  
-    },
+      required: true
+    }
   },
   components: {
     // Use the imported Column component in this Row component
-    Column,
-  },
-};
+    Column
+  }
+}
 </script>
 
 <style scoped lang="scss">

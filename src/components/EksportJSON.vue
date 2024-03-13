@@ -23,31 +23,31 @@ export default {
     return {
       // Sample data to be exported as JSON
       sampleData: {
-        name: "Font name",
-        type: "VariableFont",
-        test: "test"
-      },
-    };
+        name: 'Font name',
+        type: 'VariableFont',
+        test: 'test'
+      }
+    }
   },
   methods: {
     // Method to export sampleData to a JSON file
     exportToJson() {
       // Convert data to JSON format
-      const jsonData = JSON.stringify(this.sampleData, null, 2);
+      const jsonData = JSON.stringify(this.sampleData, null, 2)
 
       // Create an 'a' element with attributes for JSON file export
-      const a = document.createElement("a");
-      const file = new Blob([jsonData], { type: "application/json" });
-      a.href = URL.createObjectURL(file);
-      a.download = "exported_data.json";
+      const a = document.createElement('a')
+      const file = new Blob([jsonData], { type: 'application/json' })
+      a.href = URL.createObjectURL(file)
+      a.download = 'exported_data.json'
 
       // Add the element to the DOM and simulate a click
-      document.body.appendChild(a);
-      a.click();
+      document.body.appendChild(a)
+      a.click()
 
       // Remove the element from the DOM
-      document.body.removeChild(a);
-    },
-  },
-};
+      document.body.removeChild(a)
+    }
+  }
+}
 </script>

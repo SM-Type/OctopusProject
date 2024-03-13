@@ -39,12 +39,11 @@ $Akcent-op_07: rgba(199, 31, 241, 0.07);
 
 // Functional Colors
 $Color-red: rgba(254, 84, 61, 1);
-$Color-red-op: rgba(254, 84, 61, .15);
+$Color-red-op: rgba(254, 84, 61, 0.15);
 $Color-green: rgba(66, 243, 127, 1);
-$Color-green-op: rgba(66, 243, 127, .15);
+$Color-green-op: rgba(66, 243, 127, 0.15);
 $Color-blue: rgba(43, 174, 248, 1);
-$Color-blue-op: rgba(43, 174, 248, .15);
-
+$Color-blue-op: rgba(43, 174, 248, 0.15);
 
 // App Font
 @import url('https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@300;400;500;600;700&family=Spline+Sans:wght@300;400;500;600;700&display=swap');
@@ -137,7 +136,6 @@ span {
     background-color: $Akcent-op_14;
     border: 1px solid $Akcent-op_30;
   }
-  
 }
 
 @mixin inputFormat {
@@ -202,7 +200,7 @@ textarea {
   }
   @include activeBtn;
 }
-path{
+path {
   // fill:red;
   fill: $Black-basic;
 }
