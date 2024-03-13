@@ -67,7 +67,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - A panel that allows us to decide what information to display above the text column. (Currently, these are VF axes)
 > We plan to create a selection field where you can decide on displaying VF axes, Used OT features, Font names, text formatting settings. We see the need to display even several of them at the same time. Additionally, it becomes beneficial to differentiate the displayed data in case of using a font that has multiple VF axes.
 
-## Features
+## Future
 - Use color on the interface.
 - Refinement of the version for small screens.
 - Adding a panel where we can see the full set of data for each column in one place.
