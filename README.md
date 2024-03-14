@@ -32,7 +32,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - Font import and application to text columns.
   
 > [!note] 
-> Adding a font to Octopus works by clicking the Add font button. Applying the font then affects all <textarea> elements, and additional GSUB and FVAR data is retrieved.
+> Adding a font for testing in Octopus works by clicking the Add font button. Applying the font then affects all <textarea> elements, and additional GSUB and FVAR data is retrieved.
 > Using Opentype.js, we fetch data directly from the file and place it in the interface. Additional data Octopus retrieves includes information about the minimum and maximum values of axes, but we still need to plan a place in the interface where they will function well.
 
 > [!WARNING]
