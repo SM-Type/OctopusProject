@@ -22,24 +22,24 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 # Updates
 ### Octopus V.0.0.2
 
-- Moved the static version of Octopus interface to the VUE framework.
+- Moved from the static version of Octopus interface to the VUE framework.
 - Octopus is now operational online, even on mobile devices.
   
 > [!WARNING]
 > The responsiveness of the page still needs refinement. On smartphones, object scaling issues are visible.
-> We leave this problem for a later stage.
+> We will leave this problem for a later stage.
 
 - Font import and application to text columns.
   
 > [!note] 
-> Adding a font to Octopus occurs by clicking the Add font button. Applying the font then affects all <textarea> elements, and additional GSUB and FVAR data is retrieved.
+> Adding a font to Octopus works by clicking the Add font button. Applying the font then affects all <textarea> elements, and additional GSUB and FVAR data is retrieved.
 > Using Opentype.js, we fetch data directly from the file and place it in the interface. Additional data Octopus retrieves includes information about the minimum and maximum values of axes, but we still need to plan a place in the interface where they will function well.
 
 > [!WARNING]
-> Currently, font application and VF axis settings work uniformly across all columns. In Octopus, there is no separation and individualization of columns yet, allowing changes in a single text column.
+> Currently, font application and VF axis settings work uniformly across all columns. In Octopus, there is no separation and individualization of columns yet, allowing changes in a single text column. This needs to be achieved  
 
-- Column duplication. We added the functionality to increase the number of text columns.
-- Text scrolling in all columns simultaneously.
+- Multiple columns. We added the functionality to increase the number of text columns.
+- Text scrolling works in all columns simultaneously.
 - Real-time typing in all columns (regardless of quantity).
 - Locking the pasting of styles into the text frame to ensure we are testing what we intend in the font.
 - Displaying an individual management panel above each column (Font Setting, OT, VF).
@@ -47,12 +47,12 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
   - Potential for using more data such as the names of defined font instances and even the maximum and minimum heights of glyphs. We have a function responsible for retrieval, selection, and application.
   - Loading VF axes – we load default values set in the font, and we can also specify axis boundary values (minValue, maxValue). Data defined as defaults fill axis settings fields after loading the font.
   - OT feature data – Octopus displays the OT features contained in the font in the interface. They appear as buttons, allowing you to enable/disable them by clicking the button.
-- Modifying VF axes is now available. A new panel above each column called `ManagementPanel` serves this purpose. To display this panel, click the icon: 🌐 above each text column.
+- Modifying VF axes values is now available. A new panel above each column called `ManagementPanel` serves this purpose. To display this panel, click the icon: 🌐 above each text column.
 > [!WARNING]
-> Currently, downloaded OT data poses a problem with setting enable/disable. This means that all OT features are defined on the text frame, but all are inactive and cannot be activated on the interface side.
+> Currently, downloaded OT data poses a problem with setting enable/disable. This means that all OT features are defined on the text frame, but all are inactive and cannot be activated on the interface side. This issue needs to be fixed.
 
 ## In progress
-- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in non-global mode.
+- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in a local mode. In the global (currently available) mode all columns contain the same text. In the local mode it would be possible to use different texts in different columns.
 - Using text formatting settings in columns, such as font size, spacing, etc.
 - Adding text composition functionality in the column (left, center, right).
 
@@ -63,11 +63,11 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - A local mode in Vue. A system for separating changes and modifications for each column individually.
 - Improvements in responsiveness for using Octopus on much smaller screens like smartphones. Currently, it scales well to the iPad 10.5" format.
 - Saving the program state.
-> Plans include collecting data into a JSON file that will gather all user interface changes in the program. The issue arises with saving fonts in memory – more in issues.
+> Plans to include collecting data into a JSON file that will gather all user interface changes in the program. The issue arises with saving fonts in memory – please read more about ir in Issues section.
 - A panel that allows us to decide what information to display above the text column. (Currently, these are VF axes)
-> We plan to create a selection field where you can decide on displaying VF axes, Used OT features, Font names, text formatting settings. We see the need to display even several of them at the same time. Additionally, it becomes beneficial to differentiate the displayed data in case of using a font that has multiple VF axes.
+> We plan to create a selection field where the user can decide on displaying VF axes, Used OT features, Font names, text formatting settings. We see the need to display even several of them at the same time. Additionally, it becomes beneficial to differentiate the displayed data in case of using a font that has multiple VF axes.
 
 ## Future
-- Use color on the interface.
+- Colors use on the testing canvas.
 - Refinement of the version for small screens.
-- Adding a panel where we can see the full set of data for each column in one place.
+- Adding a panel that displays the full set of data for each column in one place.
