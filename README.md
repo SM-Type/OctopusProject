@@ -26,7 +26,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - Octopus is now operational online, even on mobile devices.
   
 > [!WARNING]
-> The responsiveness of the page still needs refinement. On smartphones, object scaling issues are visible.
+> The responsiveness of the page still needs refinement. On smartphones object scaling issues appear.
 > We will leave this problem for a later stage.
 
 - Font import and application to text columns.
@@ -36,7 +36,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 > Using Opentype.js, we fetch data directly from the file and place it in the interface. Additional data Octopus retrieves includes information about the minimum and maximum values of axes, but we still need to plan a place in the interface where they will function well.
 
 > [!WARNING]
-> Currently, font application and VF axis settings work uniformly across all columns. In Octopus, there is no separation and individualization of columns yet, allowing changes in a single text column. This needs to be achieved  
+> Currently, font application and VF axis settings work uniformly across all columns. In Octopus V.0.0.2 there is no separation and individualization of columns yet, allowing changes in a single text column. This is an essential functionality for Octopus and needs to be achieved.  
 
 - Multiple columns. We added the functionality to increase the number of text columns.
 - Text scrolling works in all columns simultaneously.
@@ -52,7 +52,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 > Currently, downloaded OT data poses a problem with setting enable/disable. This means that all OT features are defined on the text frame, but all are inactive and cannot be activated on the interface side. This issue needs to be fixed.
 
 ## In progress
-- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in a local mode. In the global (currently available) mode all columns contain the same text. In the local mode it would be possible to use different texts in different columns.
+- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in Individual mode. In the Group  (currently available) mode all columns contain the same text. In the Individual mode it would be possible to use different texts in different columns.
 - Using text formatting settings in columns, such as font size, spacing, etc.
 - Adding text composition functionality in the column (left, center, right).
 
@@ -60,7 +60,7 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - Adding the ability to import for an individual text column.
 > This is a matter to be considered, as it will have an impact on the planned state saving of the program.
 - Loading a text file into columns.
-- A local mode in Vue. A system for separating changes and modifications for each column individually.
+- An Individual mode in Vue. A system for separating changes and modifications for each column individually.
 - Improvements in responsiveness for using Octopus on much smaller screens like smartphones. Currently, it scales well to the iPad 10.5" format.
 - Saving the program state.
 > Plans to include collecting data into a JSON file that will gather all user interface changes in the program. The issue arises with saving fonts in memory – please read more about ir in Issues section.
