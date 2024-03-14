@@ -46,13 +46,13 @@ Octopus can use premade texts to test into. A growing body of sample texts are a
 - Used library: OpenType.js. Placing font data and settings in the interface:
   - Potential for using more data such as the names of defined font instances and even the maximum and minimum heights of glyphs. We have a function responsible for retrieval, selection, and application.
   - Loading VF axes – we load default values set in the font, and we can also specify axis boundary values (minValue, maxValue). Data defined as defaults fill axis settings fields after loading the font.
-  - OT feature data – Octopus displays the OT features contained in the font in the interface. They appear as buttons, allowing you to enable/disable them by clicking the button.
+  - OpenType features data – Octopus displays the OpenType features contained in the font in the interface. They appear as buttons, allowing you to enable/disable them by clicking the button.
 - Modifying VF axes values is now available. A new panel above each column called `ManagementPanel` serves this purpose. To display this panel, click the icon: 🌐 above each text column.
 > [!WARNING]
 > Currently, downloaded OT data poses a problem with setting enable/disable. This means that all OT features are defined on the text frame, but all are inactive and cannot be activated on the interface side. This issue needs to be fixed.
 
 ## In progress
-- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in Individual mode. In the Group  (currently available) mode all columns contain the same text. In the Individual mode it would be possible to use different texts in different columns.
+- Reconstruction of the HardWrap Panel. For technical reasons, we need to consider the application of this tool and how to separate it in the case of program operation in Individual mode. In the Group (currently available) mode all columns contain the same text. In the Individual mode it would be possible to use different texts in different columns.
 - Using text formatting settings in columns, such as font size, spacing, etc.
 - Adding text composition functionality in the column (left, center, right).
 
