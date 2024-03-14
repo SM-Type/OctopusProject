@@ -10,7 +10,7 @@ Here is a functional previous version v.095.2 https://github.com/vikagrabowska/O
 
 Octopus is font or typeface design testing tool for static and variable fonts, that runs locally in your web browser. Initially created by Viktoriya Grabowska and Szymon Marciniak, it became a public libre software project in 2024 thanks to financial support from Google Fonts. Special thanks to Eben Sorkin and Dave Crossland for making this happen. 
 
-Octopus was made to test fonts with large design spaces more efficiently. It offer up to six different views of a variable font, all at the same time (there will be more views available in the new version). It also allows you choose your views on or in-between masters.
+Octopus was made to test fonts with large design spaces more efficiently. It offers up to six different views of a variable font, all at the same time (there will be more views available in the new version). It also allows you choose your views on or in-between masters.
 
 Octopus is useful as a QA tool, as looking in-between masters can catch inconsistencies in your letterforms or spacing, especially interpolation problems.
 
