@@ -2,7 +2,7 @@
 
 To access it open website https://vikagrabowska.github.io/OctopusProject/
 
-This version has bugs and functionalities in development. Please see the Issues section first.
+This version has bugs and functionalities in development. Please read through the README section and see the Issues section.
 
 # About & previous functional version: 
 
